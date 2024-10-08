@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction App</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Prediction Form</h2>
+        <form action="/predict" method="POST">
+            <div class="form-group">
+                <label for="Type">Type:</label>
+                <input type="text" class="form-control" id="Type" name="Type" required>
+            </div>
+            <div class="form-group">
+                <label for="Air temperature [K]">Air Temperature [K]:</label>
+                <input type="number" step="any" class="form-control" id="Air temperature [K]" name="Air temperature [K]" required>
+            </div>
+            <div class="form-group">
+                <label for="Process temperature [K]">Process Temperature [K]:</label>
+                <input type="number" step="any" class="form-control" id="Process temperature [K]" name="Process temperature [K]" required>
+            </div>
+            <div class="form-group">
+                <label for="Rotational speed [rpm]">Rotational Speed [rpm]:</label>
+                <input type="number" step="any" class="form-control" id="Rotational speed [rpm]" name="Rotational speed [rpm]" required>
+            </div>
+            <div class="form-group">
+                <label for="Torque [Nm]">Torque [Nm]:</label>
+                <input type="number" step="any" class="form-control" id="Torque [Nm]" name="Torque [Nm]" required>
+            </div>
+            <div class="form-group">
+                <label for="Tool wear [min]">Tool Wear [min]:</label>
+                <input type="number" step="any" class="form-control" id="Tool wear [min]" name="Tool wear [min]" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Predict</button>
+        </form>
+
+        {% if prediction_text %}
+            <div class="mt-4 alert alert-info">
+                <strong>Result:</strong> {{ prediction_text }}
+            </div>
+        {% endif %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
