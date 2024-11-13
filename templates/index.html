@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,7 +42,16 @@
             color: #333;
         }
 
-        input[type="text"], input[type="number"] {
+        input[type="text"],
+        input[type="number"] {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        select{
             padding: 10px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
@@ -76,32 +86,44 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h2>Predict Failure Type</h2>
         <form action="/predict" method="POST">
             <label for="Type">Type:</label>
-            <input type="text" id="Type" name="Type" required>
-            
+            <select id="Type" name="Type" required>
+                <option value="H" {% if input_data and input_data['Type'] == 'H' %}selected{% endif %}>H</option>
+                <option value="M" {% if input_data and input_data['Type'] == 'M' %}selected{% endif %}>M</option>
+                <option value="L" {% if input_data and input_data['Type'] == 'L' %}selected{% endif %}>L</option>
+            </select>
+        
             <label for="Air temperature [K]">Air temperature [K]:</label>
-            <input type="number" id="Air temperature [K]" name="Air temperature [K]" step="any" required>
-            
+            <input type="number" id="Air temperature [K]" name="Air temperature [K]" step="0.01" min="273" max="2000"
+                value="{{ input_data['Air temperature [K]'] if input_data else '' }}" required>
+        
             <label for="Process temperature [K]">Process temperature [K]:</label>
-            <input type="number" id="Process temperature [K]" name="Process temperature [K]" step="any" required>
-            
+            <input type="number" id="Process temperature [K]" name="Process temperature [K]" step="0.01" min="273" max="2000"
+                value="{{ input_data['Process temperature [K]'] if input_data else '' }}" required>
+        
             <label for="Rotational speed [rpm]">Rotational speed [rpm]:</label>
-            <input type="number" id="Rotational speed [rpm]" name="Rotational speed [rpm]" step="any" required>
-            
+            <input type="number" id="Rotational speed [rpm]" name="Rotational speed [rpm]" step="0.01" min="100" max="3000"
+                value="{{ input_data['Rotational speed [rpm]'] if input_data else '' }}" required>
+        
             <label for="Torque [Nm]">Torque [Nm]:</label>
-            <input type="number" id="Torque [Nm]" name="Torque [Nm]" step="any" required>
-            
-            <label for="Tool wear [min]">Tool wear [min]:</label>
-            <input type="number" id="Tool wear [min]" name="Tool wear [min]" step="any" required>
-            
+            <input type="number" id="Torque [Nm]" name="Torque [Nm]" step="0.01" min="0" max="500"
+                value="{{ input_data['Torque [Nm]'] if input_data else '' }}" required>
+        
+            <label for="Tool wear [min]">Tool wear [min] (minutes):</label>
+            <input type="number" id="Tool wear [min]" name="Tool wear [min]" step="0.01" min="0" max="500"
+                value="{{ input_data['Tool wear [min]'] if input_data else '' }}" required>
+        
             <input type="submit" value="Predict">
         </form>
+        
+        <h3>{{ prediction_text }}</h3>     
 
-        <h3>{{ prediction_text }}</h3>
     </div>
 </body>
+
 </html>
