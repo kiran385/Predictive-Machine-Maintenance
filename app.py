@@ -26,7 +26,7 @@ model = RandomForestClassifier(n_estimators=100, random_state=42)
 model.fit(X_train, y_train)
 
 # Save the trained model and label encoder
-joblib.dump(model, 'model.pkl')
+joblib.dump(model, 'dtc.pkl')
 joblib.dump(label_encoder, 'label_encoder.pkl')
 
 # Home route
@@ -49,7 +49,7 @@ def predict():
     tool_wear = float(input_data['Tool wear [min]'])
 
     # Load the trained model and label encoder
-    model = joblib.load('model.pkl')
+    model = joblib.load('dtc.pkl')
     label_encoder = joblib.load('label_encoder.pkl')
 
     # Encode the 'Type' input
@@ -72,7 +72,8 @@ def predict():
     # Convert prediction to readable format
     result_text = f'Predicted Failure Type: {prediction}'
 
-    return render_template('index.html', prediction_text=result_text)
+    # Render the template with both the prediction and the input values
+    return render_template('index.html',prediction_text=result_text,input_data=input_data)
 
 if __name__ == '__main__':
     app.run(debug=True)
